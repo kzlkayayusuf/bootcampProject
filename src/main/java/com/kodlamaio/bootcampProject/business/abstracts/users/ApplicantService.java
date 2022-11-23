@@ -5,24 +5,26 @@ import java.util.List;
 import com.kodlamaio.bootcampProject.business.requests.create.CreateApplicantRequest;
 import com.kodlamaio.bootcampProject.business.requests.update.UpdateApplicantRequest;
 import com.kodlamaio.bootcampProject.business.responses.create.CreateApplicantResponse;
-import com.kodlamaio.bootcampProject.business.responses.delete.DeleteApplicantResponse;
-import com.kodlamaio.bootcampProject.business.responses.read.GetAllApplicantsResponse;
+import com.kodlamaio.bootcampProject.business.responses.read.GetAllApplicantResponse;
 import com.kodlamaio.bootcampProject.business.responses.read.GetApplicantResponse;
 import com.kodlamaio.bootcampProject.business.responses.update.UpdateApplicantResponse;
+import com.kodlamaio.bootcampProject.core.utilities.results.DataResult;
+import com.kodlamaio.bootcampProject.core.utilities.results.Result;
 
 public interface ApplicantService {
-	List<GetAllApplicantsResponse> getAll();
 
-	   CreateApplicantResponse add(CreateApplicantRequest createApplicantRequest) throws Exception;
+	DataResult<List<GetAllApplicantResponse>> getAll();
 
-	   GetApplicantResponse getByName(String name);
+	DataResult<CreateApplicantResponse> add(CreateApplicantRequest createApplicantRequest);
 
-	   GetApplicantResponse getById(int id);
+	DataResult<GetApplicantResponse> getByName(String name);
 
-	   DeleteApplicantResponse deleteById(int id);
+	DataResult<GetApplicantResponse> getById(int id);
 
-	   List<GetAllApplicantsResponse> deleteAll();
+	Result deleteById(int id);
 
-	   UpdateApplicantResponse update(UpdateApplicantRequest updateApplicantRequest);
+	DataResult<List<GetAllApplicantResponse>> deleteAll();
+
+	DataResult<UpdateApplicantResponse> update(UpdateApplicantRequest updateApplicantRequest);
 
 }

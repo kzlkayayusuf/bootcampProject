@@ -12,23 +12,18 @@ import com.kodlamaio.bootcampProject.core.utilities.results.DataResult;
 import com.kodlamaio.bootcampProject.core.utilities.results.Result;
 
 public interface InstructorService {
-	//List<GetAllInstructorsResponse> getAll();
+
 	DataResult<List<GetAllInstructorResponse>> getAll();
-	
-	//CreateInstructorResponse add(CreateInstructorRequest createInstructorRequest);
+
 	DataResult<CreateInstructorResponse> add(CreateInstructorRequest createInstructorRequest);
-	
-	//GetInstructorResponse getByName(String name);
+
 	DataResult<GetInstructorResponse> getByName(String name);
 
-	//GetInstructorResponse getById(int id);
 	DataResult<GetInstructorResponse> getById(int id);
 
-	//DeleteInstructorResponse deleteById(int id);
 	Result deleteById(int id);
-	
+
 	DataResult<List<GetAllInstructorResponse>> deleteAll();
 
-	//UpdateInstructorResponse update(UpdateInstructorRequest updateInstructorRequest);
 	DataResult<UpdateInstructorResponse> update(UpdateInstructorRequest updateInstructorRequest);
 }

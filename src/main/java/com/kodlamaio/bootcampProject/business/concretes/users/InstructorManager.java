@@ -37,16 +37,6 @@ public class InstructorManager implements InstructorService {
 				instructor -> this.modelMapperService.forResponse().map(instructor, GetAllInstructorResponse.class))
 				.collect(Collectors.toList());
 
-//		for (Instructor instructor : instructors) {
-//			GetAllInstructorResponse responseItem = new GetAllInstructorResponse();
-//			responseItem.setId(instructor.getId());
-//			responseItem.setCompanyName(instructor.getCompanyName());
-//			responseItem.setFirstName(instructor.getEmail());
-//			responseItem.setLastName(instructor.getLastName());
-//			responseItem.setEmail(instructor.getEmail());
-//			responseItem.setPassword(instructor.getPassword());
-//			instructorsResponse.add(responseItem);
-//		}
 		return new SuccessDataResult<List<GetAllInstructorResponse>>(instructorsResponse);
 	}
 
@@ -79,10 +69,8 @@ public class InstructorManager implements InstructorService {
 
 	@Override
 	public Result deleteById(int id) {
-//		Instructor instructor = instructorRepository.findById(id).get();
-//		DeleteInstructorResponse instructorResponse = this.modelMapperService.forResponse().map(instructor,
-//				DeleteInstructorResponse.class);
-		instructorRepository.deleteById(id);
+
+		this.instructorRepository.deleteById(id);
 		return new SuccessResult(Messages.InstructorDeleted);
 	}
 
@@ -92,21 +80,10 @@ public class InstructorManager implements InstructorService {
 		List<GetAllInstructorResponse> instructorsResponse = instructors.stream().map(
 				instructor -> this.modelMapperService.forResponse().map(instructor, GetAllInstructorResponse.class))
 				.collect(Collectors.toList());
-//		List<Instructor> instructors = instructorRepository.findAll();
-//		List<GetAllInstructorResponse> instructorsResponse = new ArrayList<GetAllInstructorsResponse>();
-//
-//		for (Instructor instructor : instructors) {
-//			GetAllInstructorsResponse responseItem = new GetAllInstructorsResponse();
-//			responseItem.setId(instructor.getId());
-//			responseItem.setCompanyName(instructor.getCompanyName());
-//			responseItem.setFirstName(instructor.getEmail());
-//			responseItem.setLastName(instructor.getLastName());
-//			responseItem.setEmail(instructor.getEmail());
-//			responseItem.setPassword(instructor.getPassword());
-//			instructorsResponse.add(responseItem);
-//		}
-//		return instructorsResponse;
-		return new SuccessDataResult<List<GetAllInstructorResponse>>(instructorsResponse);
+
+		this.instructorRepository.deleteAll();
+		return new SuccessDataResult<List<GetAllInstructorResponse>>(instructorsResponse,
+				Messages.AllInstructorDeleted);
 	}
 
 	@Override

@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAllEmployeesResponse extends UserResponse {
+public class GetAllEmployeeResponse extends UserResponse {
 	private int id;
 	private String position;
 	 

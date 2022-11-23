@@ -1,19 +1,23 @@
 package com.kodlamaio.bootcampProject.business.concretes.users;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.kodlamaio.bootcampProject.business.abstracts.users.EmployeeService;
+import com.kodlamaio.bootcampProject.business.constants.Messages;
 import com.kodlamaio.bootcampProject.business.requests.create.CreateEmployeeRequest;
 import com.kodlamaio.bootcampProject.business.requests.update.UpdateEmployeeRequest;
 import com.kodlamaio.bootcampProject.business.responses.create.CreateEmployeeResponse;
-import com.kodlamaio.bootcampProject.business.responses.delete.DeleteEmployeeResponse;
-import com.kodlamaio.bootcampProject.business.responses.read.GetAllEmployeesResponse;
+import com.kodlamaio.bootcampProject.business.responses.read.GetAllEmployeeResponse;
 import com.kodlamaio.bootcampProject.business.responses.read.GetEmployeeResponse;
 import com.kodlamaio.bootcampProject.business.responses.update.UpdateEmployeeResponse;
 import com.kodlamaio.bootcampProject.core.utilities.mapping.ModelMapperService;
+import com.kodlamaio.bootcampProject.core.utilities.results.DataResult;
+import com.kodlamaio.bootcampProject.core.utilities.results.Result;
+import com.kodlamaio.bootcampProject.core.utilities.results.SuccessDataResult;
+import com.kodlamaio.bootcampProject.core.utilities.results.SuccessResult;
 import com.kodlamaio.bootcampProject.dataAccess.abstracts.users.EmployeeRepository;
 import com.kodlamaio.bootcampProject.entities.users.Employee;
 
@@ -27,85 +31,66 @@ public class EmployeeManager implements EmployeeService {
 	private ModelMapperService modelMapperService;
 
 	@Override
-	public List<GetAllEmployeesResponse> getAll() {
-		List<Employee> employees = employeeRepository.findAll();
-		List<GetAllEmployeesResponse> employeesResponse = new ArrayList<>();
-
-		for (Employee employee : employees) {
-			GetAllEmployeesResponse responseItem = new GetAllEmployeesResponse();
-			responseItem.setId(employee.getId());
-			responseItem.setPosition(employee.getPosition());
-			responseItem.setFirstName(employee.getEmail());
-			responseItem.setLastName(employee.getLastName());
-			responseItem.setEmail(employee.getEmail());
-			responseItem.setPassword(employee.getPassword());
-			employeesResponse.add(responseItem);
-		}
-		return employeesResponse;
+	public DataResult<List<GetAllEmployeeResponse>> getAll() {
+		List<Employee> employees = this.employeeRepository.findAll();
+		List<GetAllEmployeeResponse> employeesResponse = employees.stream()
+				.map(employee -> this.modelMapperService.forResponse().map(employee, GetAllEmployeeResponse.class))
+				.collect(Collectors.toList());
+		return new SuccessDataResult<List<GetAllEmployeeResponse>>(employeesResponse);
 	}
 
 	@Override
-	public CreateEmployeeResponse add(CreateEmployeeRequest createEmployeeRequest) {
+	public DataResult<CreateEmployeeResponse> add(CreateEmployeeRequest createEmployeeRequest) {
 		Employee employee = this.modelMapperService.forRequest().map(createEmployeeRequest, Employee.class);
 		this.employeeRepository.save(employee);
 
 		CreateEmployeeResponse employeeResponse = this.modelMapperService.forResponse().map(employee,
 				CreateEmployeeResponse.class);
-		return employeeResponse;
+		return new SuccessDataResult<CreateEmployeeResponse>(employeeResponse, Messages.EmployeeCreated);
 	}
 
 	@Override
-	public GetEmployeeResponse getByName(String name) {
-		Employee employee = employeeRepository.findByFirstName(name).get();
+	public DataResult<GetEmployeeResponse> getByName(String name) {
+		Employee employee = this.employeeRepository.findByFirstName(name).get();
 		GetEmployeeResponse employeeResponse = this.modelMapperService.forResponse().map(employee,
 				GetEmployeeResponse.class);
-		return employeeResponse;
+
+		return new SuccessDataResult<GetEmployeeResponse>(employeeResponse);
 	}
 
 	@Override
-	public GetEmployeeResponse getById(int id) {
-		Employee employee = employeeRepository.findById(id).get();
+	public DataResult<GetEmployeeResponse> getById(int id) {
+		Employee employee = this.employeeRepository.findById(id).get();
 		GetEmployeeResponse employeeResponse = this.modelMapperService.forResponse().map(employee,
 				GetEmployeeResponse.class);
-		return employeeResponse;
+
+		return new SuccessDataResult<GetEmployeeResponse>(employeeResponse);
 	}
 
 	@Override
-	public DeleteEmployeeResponse deleteById(int id) {
-		Employee employee = employeeRepository.findById(id).get();
-		DeleteEmployeeResponse employeeResponse = this.modelMapperService.forResponse().map(employee,
-				DeleteEmployeeResponse.class);
-		employeeRepository.deleteById(id);
-		return employeeResponse;
+	public Result deleteById(int id) {
+		this.employeeRepository.deleteById(id);
+		return new SuccessResult(Messages.EmployeeDeleted);
 	}
 
 	@Override
-	public List<GetAllEmployeesResponse> deleteAll() {
-		List<Employee> employees = employeeRepository.findAll();
-		List<GetAllEmployeesResponse> employeesResponse = new ArrayList<GetAllEmployeesResponse>();
-
-		for (Employee employee : employees) {
-			GetAllEmployeesResponse responseItem = new GetAllEmployeesResponse();
-			responseItem.setId(employee.getId());
-			responseItem.setPosition(employee.getPosition());
-			responseItem.setFirstName(employee.getEmail());
-			responseItem.setLastName(employee.getLastName());
-			responseItem.setEmail(employee.getEmail());
-			responseItem.setPassword(employee.getPassword());
-			employeesResponse.add(responseItem);
-		}
-		employeeRepository.deleteAll();
-		return employeesResponse;
+	public DataResult<List<GetAllEmployeeResponse>> deleteAll() {
+		List<Employee> employees = this.employeeRepository.findAll();
+		List<GetAllEmployeeResponse> employeesResponse = employees.stream()
+				.map(employee -> this.modelMapperService.forResponse().map(employee, GetAllEmployeeResponse.class))
+				.collect(Collectors.toList());
+		this.employeeRepository.deleteAll();
+		return new SuccessDataResult<List<GetAllEmployeeResponse>>(employeesResponse, Messages.AllEmployeeDeleted);
 	}
 
 	@Override
-	public UpdateEmployeeResponse update(UpdateEmployeeRequest updateEmployeeRequest) {
+	public DataResult<UpdateEmployeeResponse> update(UpdateEmployeeRequest updateEmployeeRequest) {
 		Employee employee = this.modelMapperService.forRequest().map(updateEmployeeRequest, Employee.class);
 		this.employeeRepository.save(employee);
-
 		UpdateEmployeeResponse employeeResponse = this.modelMapperService.forResponse().map(employee,
 				UpdateEmployeeResponse.class);
-		return employeeResponse;
+
+		return new SuccessDataResult<UpdateEmployeeResponse>(employeeResponse, Messages.EmployeeUpdated);
 	}
 
 }

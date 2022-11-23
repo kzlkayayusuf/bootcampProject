@@ -5,24 +5,26 @@ import java.util.List;
 import com.kodlamaio.bootcampProject.business.requests.create.CreateEmployeeRequest;
 import com.kodlamaio.bootcampProject.business.requests.update.UpdateEmployeeRequest;
 import com.kodlamaio.bootcampProject.business.responses.create.CreateEmployeeResponse;
-import com.kodlamaio.bootcampProject.business.responses.delete.DeleteEmployeeResponse;
-import com.kodlamaio.bootcampProject.business.responses.read.GetAllEmployeesResponse;
+import com.kodlamaio.bootcampProject.business.responses.read.GetAllEmployeeResponse;
 import com.kodlamaio.bootcampProject.business.responses.read.GetEmployeeResponse;
 import com.kodlamaio.bootcampProject.business.responses.update.UpdateEmployeeResponse;
+import com.kodlamaio.bootcampProject.core.utilities.results.DataResult;
+import com.kodlamaio.bootcampProject.core.utilities.results.Result;
 
 public interface EmployeeService {
-	List<GetAllEmployeesResponse> getAll();
+	
+	DataResult<List<GetAllEmployeeResponse>> getAll();
 
-	   CreateEmployeeResponse add(CreateEmployeeRequest createEmployeeRequest);
+	DataResult<CreateEmployeeResponse> add(CreateEmployeeRequest createEmployeeRequest);
 
-	   GetEmployeeResponse getByName(String name);
+	DataResult<GetEmployeeResponse> getByName(String name);
 
-	   GetEmployeeResponse getById(int id);
+	DataResult<GetEmployeeResponse> getById(int id);
 
-	   DeleteEmployeeResponse deleteById(int id);
+	Result deleteById(int id);
 
-	   List<GetAllEmployeesResponse> deleteAll();
+	DataResult<List<GetAllEmployeeResponse>> deleteAll();
 
-	   UpdateEmployeeResponse update(UpdateEmployeeRequest updateEmployeeRequest);
+	DataResult<UpdateEmployeeResponse> update(UpdateEmployeeRequest updateEmployeeRequest);
 
 }

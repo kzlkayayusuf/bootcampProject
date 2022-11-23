@@ -1,19 +1,23 @@
 package com.kodlamaio.bootcampProject.business.concretes.users;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
 import com.kodlamaio.bootcampProject.business.abstracts.users.ApplicantService;
+import com.kodlamaio.bootcampProject.business.constants.Messages;
 import com.kodlamaio.bootcampProject.business.requests.create.CreateApplicantRequest;
 import com.kodlamaio.bootcampProject.business.requests.update.UpdateApplicantRequest;
 import com.kodlamaio.bootcampProject.business.responses.create.CreateApplicantResponse;
-import com.kodlamaio.bootcampProject.business.responses.delete.DeleteApplicantResponse;
-import com.kodlamaio.bootcampProject.business.responses.read.GetAllApplicantsResponse;
+import com.kodlamaio.bootcampProject.business.responses.read.GetAllApplicantResponse;
 import com.kodlamaio.bootcampProject.business.responses.read.GetApplicantResponse;
 import com.kodlamaio.bootcampProject.business.responses.update.UpdateApplicantResponse;
 import com.kodlamaio.bootcampProject.core.utilities.mapping.ModelMapperService;
+import com.kodlamaio.bootcampProject.core.utilities.results.DataResult;
+import com.kodlamaio.bootcampProject.core.utilities.results.Result;
+import com.kodlamaio.bootcampProject.core.utilities.results.SuccessDataResult;
+import com.kodlamaio.bootcampProject.core.utilities.results.SuccessResult;
 import com.kodlamaio.bootcampProject.dataAccess.abstracts.users.ApplicantRepository;
 import com.kodlamaio.bootcampProject.entities.users.Applicant;
 
@@ -27,92 +31,66 @@ public class ApplicantManager implements ApplicantService {
 	private ModelMapperService modelMapperService;
 
 	@Override
-	public List<GetAllApplicantsResponse> getAll() {
-		List<Applicant> applicants = applicantRepository.findAll();
-		List<GetAllApplicantsResponse> applicantsResponse = new ArrayList<>();
+	public DataResult<List<GetAllApplicantResponse>> getAll() {
+		List<Applicant> applicants = this.applicantRepository.findAll();
+		List<GetAllApplicantResponse> applicantResponse = applicants.stream()
+				.map(applicant -> this.modelMapperService.forResponse().map(applicant, GetAllApplicantResponse.class))
+				.collect(Collectors.toList());
 
-		for (Applicant applicant : applicants) {
-			GetAllApplicantsResponse responseItem = new GetAllApplicantsResponse();
-			responseItem.setId(applicant.getId());
-			responseItem.setAbout(applicant.getAbout());
-			responseItem.setEmail(applicant.getEmail());
-			responseItem.setFirstName(applicant.getFirstName());
-			responseItem.setLastName(applicant.getLastName());
-			responseItem.setPassword(applicant.getPassword());
-			applicantsResponse.add(responseItem);
-		}
-		return applicantsResponse;
+		return new SuccessDataResult<List<GetAllApplicantResponse>>(applicantResponse);
 	}
 
 	@Override
-	public CreateApplicantResponse add(CreateApplicantRequest createApplicantRequest) throws Exception {
+	public DataResult<CreateApplicantResponse> add(CreateApplicantRequest createApplicantRequest) {
 		Applicant applicant = this.modelMapperService.forRequest().map(createApplicantRequest, Applicant.class);
-		checkEmail(createApplicantRequest.getEmail());
 		this.applicantRepository.save(applicant);
 
 		CreateApplicantResponse applicantResponse = this.modelMapperService.forResponse().map(applicant,
 				CreateApplicantResponse.class);
-		return applicantResponse;
+		return new SuccessDataResult<CreateApplicantResponse>(applicantResponse, Messages.ApplicantCreated);
 	}
 
 	@Override
-	public GetApplicantResponse getByName(String name) {
-		Applicant applicant = applicantRepository.findByFirstName(name).get();
+	public DataResult<GetApplicantResponse> getByName(String name) {
+		Applicant applicant = this.applicantRepository.findByFirstName(name).get();
 		GetApplicantResponse applicantResponse = this.modelMapperService.forResponse().map(applicant,
 				GetApplicantResponse.class);
-		return applicantResponse;
+		return new SuccessDataResult<GetApplicantResponse>(applicantResponse);
 	}
 
 	@Override
-	public GetApplicantResponse getById(int id) {
-		Applicant applicant = applicantRepository.findById(id).get();
+	public DataResult<GetApplicantResponse> getById(int id) {
+		Applicant applicant = this.applicantRepository.findById(id).get();
 		GetApplicantResponse applicantResponse = this.modelMapperService.forResponse().map(applicant,
 				GetApplicantResponse.class);
-		return applicantResponse;
+		return new SuccessDataResult<GetApplicantResponse>(applicantResponse);
 	}
 
 	@Override
-	public DeleteApplicantResponse deleteById(int id) {
-		Applicant applicant = applicantRepository.findById(id).get();
-		DeleteApplicantResponse applicantResponse = this.modelMapperService.forResponse().map(applicant,
-				DeleteApplicantResponse.class);
-		applicantRepository.deleteById(id);
-		return applicantResponse;
+	public Result deleteById(int id) {
+		this.applicantRepository.deleteById(id);
+		return new SuccessResult(Messages.ApplicantDeleted);
 	}
 
 	@Override
-	public List<GetAllApplicantsResponse> deleteAll() {
-		List<Applicant> applicants = applicantRepository.findAll();
-		List<GetAllApplicantsResponse> applicantsResponse = new ArrayList<GetAllApplicantsResponse>();
+	public DataResult<List<GetAllApplicantResponse>> deleteAll() {
+		List<Applicant> applicants = this.applicantRepository.findAll();
+		List<GetAllApplicantResponse> applicantResponse = applicants.stream()
+				.map(applicant -> this.modelMapperService.forResponse().map(applicant, GetAllApplicantResponse.class))
+				.collect(Collectors.toList());
 
-		for (Applicant applicant : applicants) {
-			GetAllApplicantsResponse responseItem = new GetAllApplicantsResponse();
-			responseItem.setId(applicant.getId());
-			responseItem.setAbout(applicant.getAbout());
-			responseItem.setEmail(applicant.getEmail());
-			responseItem.setFirstName(applicant.getFirstName());
-			responseItem.setLastName(applicant.getLastName());
-			responseItem.setPassword(applicant.getPassword());
-			applicantsResponse.add(responseItem);
-		}
-		applicantRepository.deleteAll();
-		return applicantsResponse;
+		this.applicantRepository.deleteAll();
+		return new SuccessDataResult<List<GetAllApplicantResponse>>(applicantResponse, Messages.AllApplicantDeleted);
 	}
 
 	@Override
-	public UpdateApplicantResponse update(UpdateApplicantRequest updateApplicantRequest) {
+	public DataResult<UpdateApplicantResponse> update(UpdateApplicantRequest updateApplicantRequest) {
 		Applicant applicant = this.modelMapperService.forRequest().map(updateApplicantRequest, Applicant.class);
 		this.applicantRepository.save(applicant);
 
 		UpdateApplicantResponse applicantResponse = this.modelMapperService.forResponse().map(applicant,
 				UpdateApplicantResponse.class);
-		return applicantResponse;
-	}
-	
-	public void checkEmail(String email) throws Exception{
-		if(applicantRepository.existsByEmail(email)) {
-			throw new Exception("email var");
-		}
+		return new SuccessDataResult<UpdateApplicantResponse>(applicantResponse, Messages.ApplicantUpdated);
 	}
 
 }

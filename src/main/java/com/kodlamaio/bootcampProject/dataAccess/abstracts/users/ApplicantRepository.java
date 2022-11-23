@@ -8,5 +8,5 @@ import com.kodlamaio.bootcampProject.entities.users.Applicant;
 
 public interface ApplicantRepository extends JpaRepository<Applicant, Integer> {
 	Optional<Applicant> findByFirstName(String name);
-	boolean existsByEmail(String email);
+	//boolean existsByEmail(String email);
 }
