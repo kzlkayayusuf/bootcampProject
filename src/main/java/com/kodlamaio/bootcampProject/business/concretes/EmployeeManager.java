@@ -22,17 +22,17 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @Service
 public class EmployeeManager implements EmployeeService {
-	
+
 	private EmployeeRepository employeeRepository;
 	private ModelMapperService modelMapperService;
-	
+
 	@Override
 	public List<GetAllEmployeesResponse> getAll() {
-		List<Employee> employees= employeeRepository.findAll();
-		List<GetAllEmployeesResponse> employeesResponse=new ArrayList<>();
-		
-		for (Employee employee: employees) {
-			GetAllEmployeesResponse responseItem= new GetAllEmployeesResponse();
+		List<Employee> employees = employeeRepository.findAll();
+		List<GetAllEmployeesResponse> employeesResponse = new ArrayList<>();
+
+		for (Employee employee : employees) {
+			GetAllEmployeesResponse responseItem = new GetAllEmployeesResponse();
 			responseItem.setId(employee.getId());
 			responseItem.setPosition(employee.getPosition());
 			responseItem.setFirstName(employee.getEmail());
@@ -46,41 +46,66 @@ public class EmployeeManager implements EmployeeService {
 
 	@Override
 	public CreateEmployeeResponse add(CreateEmployeeRequest createEmployeeRequest) {
-		Employee employee=this.modelMapperService.forRequest().map(createEmployeeRequest,Employee.class);
-        this.employeeRepository.save(employee);
+		Employee employee = this.modelMapperService.forRequest().map(createEmployeeRequest, Employee.class);
+		this.employeeRepository.save(employee);
 
-        CreateEmployeeResponse employeeResponse=this.modelMapperService.forResponse().map(employee,CreateEmployeeResponse.class);
-        return employeeResponse;
+		CreateEmployeeResponse employeeResponse = this.modelMapperService.forResponse().map(employee,
+				CreateEmployeeResponse.class);
+		return employeeResponse;
 	}
 
 	@Override
 	public GetEmployeeResponse getByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		Employee employee = employeeRepository.findByName(name).get();
+		GetEmployeeResponse employeeResponse = this.modelMapperService.forResponse().map(employee,
+				GetEmployeeResponse.class);
+		return employeeResponse;
 	}
 
 	@Override
 	public GetEmployeeResponse getById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Employee employee = employeeRepository.findById(id).get();
+		GetEmployeeResponse employeeResponse = this.modelMapperService.forResponse().map(employee,
+				GetEmployeeResponse.class);
+		return employeeResponse;
 	}
 
 	@Override
 	public DeleteEmployeeResponse deleteById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Employee employee = employeeRepository.findById(id).get();
+		DeleteEmployeeResponse employeeResponse = this.modelMapperService.forResponse().map(employee,
+				DeleteEmployeeResponse.class);
+		employeeRepository.deleteById(id);
+		return employeeResponse;
 	}
 
 	@Override
 	public List<GetAllEmployeesResponse> deleteAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Employee> employees = employeeRepository.findAll();
+		List<GetAllEmployeesResponse> employeesResponse = new ArrayList<GetAllEmployeesResponse>();
+
+		for (Employee employee : employees) {
+			GetAllEmployeesResponse responseItem = new GetAllEmployeesResponse();
+			responseItem.setId(employee.getId());
+			responseItem.setPosition(employee.getPosition());
+			responseItem.setFirstName(employee.getEmail());
+			responseItem.setLastName(employee.getLastName());
+			responseItem.setEmail(employee.getEmail());
+			responseItem.setPassword(employee.getPassword());
+			employeesResponse.add(responseItem);
+		}
+		employeeRepository.deleteAll();
+		return employeesResponse;
 	}
 
 	@Override
 	public UpdateEmployeeResponse update(UpdateEmployeeRequest updateEmployeeRequest) {
-		// TODO Auto-generated method stub
-		return null;
+		Employee employee = this.modelMapperService.forRequest().map(updateEmployeeRequest, Employee.class);
+		this.employeeRepository.save(employee);
+
+		UpdateEmployeeResponse employeeResponse = this.modelMapperService.forResponse().map(employee,
+				UpdateEmployeeResponse.class);
+		return employeeResponse;
 	}
-	
+
 }

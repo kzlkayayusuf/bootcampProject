@@ -22,17 +22,17 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 @Service
 public class InstructorManager implements InstructorService {
-	
+
 	private InstructorRepository instructorRepository;
 	private ModelMapperService modelMapperService;
-	
+
 	@Override
 	public List<GetAllInstructorsResponse> getAll() {
-		List<Instructor> instructors= instructorRepository.findAll();
-		List<GetAllInstructorsResponse> instructorsResponse=new ArrayList<>();
-		
-		for (Instructor instructor: instructors) {
-			GetAllInstructorsResponse responseItem= new GetAllInstructorsResponse();
+		List<Instructor> instructors = instructorRepository.findAll();
+		List<GetAllInstructorsResponse> instructorsResponse = new ArrayList<>();
+
+		for (Instructor instructor : instructors) {
+			GetAllInstructorsResponse responseItem = new GetAllInstructorsResponse();
 			responseItem.setId(instructor.getId());
 			responseItem.setCompanyName(instructor.getCompanyName());
 			responseItem.setFirstName(instructor.getEmail());
@@ -46,41 +46,66 @@ public class InstructorManager implements InstructorService {
 
 	@Override
 	public CreateInstructorResponse add(CreateInstructorRequest createInstructorRequest) {
-		Instructor instructor=this.modelMapperService.forRequest().map(createInstructorRequest,Instructor.class);
-        this.instructorRepository.save(instructor);
+		Instructor instructor = this.modelMapperService.forRequest().map(createInstructorRequest, Instructor.class);
+		this.instructorRepository.save(instructor);
 
-        CreateInstructorResponse instructorResponse=this.modelMapperService.forResponse().map(instructor,CreateInstructorResponse.class);
-        return instructorResponse;
+		CreateInstructorResponse instructorResponse = this.modelMapperService.forResponse().map(instructor,
+				CreateInstructorResponse.class);
+		return instructorResponse;
 	}
 
 	@Override
 	public GetInstructorResponse getByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+		Instructor instructor = instructorRepository.findByName(name).get();
+		GetInstructorResponse instructorResponse = this.modelMapperService.forResponse().map(instructor,
+				GetInstructorResponse.class);
+		return instructorResponse;
 	}
 
 	@Override
 	public GetInstructorResponse getById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Instructor instructor = instructorRepository.findById(id).get();
+		GetInstructorResponse instructorResponse = this.modelMapperService.forResponse().map(instructor,
+				GetInstructorResponse.class);
+		return instructorResponse;
 	}
 
 	@Override
 	public DeleteInstructorResponse deleteById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		Instructor instructor = instructorRepository.findById(id).get();
+		DeleteInstructorResponse instructorResponse = this.modelMapperService.forResponse().map(instructor,
+				DeleteInstructorResponse.class);
+		instructorRepository.deleteById(id);
+		return instructorResponse;
 	}
 
 	@Override
 	public List<GetAllInstructorsResponse> deleteAll() {
-		// TODO Auto-generated method stub
-		return null;
+		List<Instructor> instructors = instructorRepository.findAll();
+		List<GetAllInstructorsResponse> instructorsResponse = new ArrayList<GetAllInstructorsResponse>();
+
+		for (Instructor instructor : instructors) {
+			GetAllInstructorsResponse responseItem = new GetAllInstructorsResponse();
+			responseItem.setId(instructor.getId());
+			responseItem.setCompanyName(instructor.getCompanyName());
+			responseItem.setFirstName(instructor.getEmail());
+			responseItem.setLastName(instructor.getLastName());
+			responseItem.setEmail(instructor.getEmail());
+			responseItem.setPassword(instructor.getPassword());
+			instructorsResponse.add(responseItem);
+		}
+		instructorRepository.deleteAll();
+		return instructorsResponse;
 	}
 
 	@Override
 	public UpdateInstructorResponse update(UpdateInstructorRequest updateInstructorRequest) {
-		// TODO Auto-generated method stub
-		return null;
+		Instructor instructor = this.modelMapperService.forRequest().map(updateInstructorRequest, Instructor.class);
+		this.instructorRepository.save(instructor);
+
+		UpdateInstructorResponse instructorResponse = this.modelMapperService.forResponse().map(instructor,
+				UpdateInstructorResponse.class);
+		return instructorResponse;
 	}
-	
+
 }
