@@ -8,7 +8,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @Service
-public class ModalMapperManager implements ModelMapperService {
+public class ModelMapperManager implements ModelMapperService {
 
 	private ModelMapper modelMapper;
 

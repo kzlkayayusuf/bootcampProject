@@ -1,11 +1,11 @@
-package com.kodlamaio.bootcampProject.business.concretes;
+package com.kodlamaio.bootcampProject.business.concretes.users;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.kodlamaio.bootcampProject.business.abstracts.EmployeeService;
+import com.kodlamaio.bootcampProject.business.abstracts.users.EmployeeService;
 import com.kodlamaio.bootcampProject.business.requests.create.CreateEmployeeRequest;
 import com.kodlamaio.bootcampProject.business.requests.update.UpdateEmployeeRequest;
 import com.kodlamaio.bootcampProject.business.responses.create.CreateEmployeeResponse;
@@ -14,7 +14,7 @@ import com.kodlamaio.bootcampProject.business.responses.read.GetAllEmployeesResp
 import com.kodlamaio.bootcampProject.business.responses.read.GetEmployeeResponse;
 import com.kodlamaio.bootcampProject.business.responses.update.UpdateEmployeeResponse;
 import com.kodlamaio.bootcampProject.core.utilities.mapping.ModelMapperService;
-import com.kodlamaio.bootcampProject.dataAccess.abstracts.EmployeeRepository;
+import com.kodlamaio.bootcampProject.dataAccess.abstracts.users.EmployeeRepository;
 import com.kodlamaio.bootcampProject.entities.users.Employee;
 
 import lombok.AllArgsConstructor;
@@ -56,7 +56,7 @@ public class EmployeeManager implements EmployeeService {
 
 	@Override
 	public GetEmployeeResponse getByName(String name) {
-		Employee employee = employeeRepository.findByName(name).get();
+		Employee employee = employeeRepository.findByFirstName(name).get();
 		GetEmployeeResponse employeeResponse = this.modelMapperService.forResponse().map(employee,
 				GetEmployeeResponse.class);
 		return employeeResponse;

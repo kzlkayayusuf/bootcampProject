@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kodlamaio.bootcampProject.business.abstracts.EmployeeService;
+import com.kodlamaio.bootcampProject.business.abstracts.users.EmployeeService;
 import com.kodlamaio.bootcampProject.business.requests.create.CreateEmployeeRequest;
 import com.kodlamaio.bootcampProject.business.requests.update.UpdateEmployeeRequest;
 import com.kodlamaio.bootcampProject.business.responses.create.CreateEmployeeResponse;

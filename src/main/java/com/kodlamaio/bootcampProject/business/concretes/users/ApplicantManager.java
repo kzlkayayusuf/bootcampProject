@@ -1,11 +1,11 @@
-package com.kodlamaio.bootcampProject.business.concretes;
+package com.kodlamaio.bootcampProject.business.concretes.users;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.kodlamaio.bootcampProject.business.abstracts.ApplicantService;
+import com.kodlamaio.bootcampProject.business.abstracts.users.ApplicantService;
 import com.kodlamaio.bootcampProject.business.requests.create.CreateApplicantRequest;
 import com.kodlamaio.bootcampProject.business.requests.update.UpdateApplicantRequest;
 import com.kodlamaio.bootcampProject.business.responses.create.CreateApplicantResponse;
@@ -14,7 +14,7 @@ import com.kodlamaio.bootcampProject.business.responses.read.GetAllApplicantsRes
 import com.kodlamaio.bootcampProject.business.responses.read.GetApplicantResponse;
 import com.kodlamaio.bootcampProject.business.responses.update.UpdateApplicantResponse;
 import com.kodlamaio.bootcampProject.core.utilities.mapping.ModelMapperService;
-import com.kodlamaio.bootcampProject.dataAccess.abstracts.ApplicantRepository;
+import com.kodlamaio.bootcampProject.dataAccess.abstracts.users.ApplicantRepository;
 import com.kodlamaio.bootcampProject.entities.users.Applicant;
 
 import lombok.AllArgsConstructor;
@@ -45,8 +45,9 @@ public class ApplicantManager implements ApplicantService {
 	}
 
 	@Override
-	public CreateApplicantResponse add(CreateApplicantRequest createApplicantRequest) {
+	public CreateApplicantResponse add(CreateApplicantRequest createApplicantRequest) throws Exception {
 		Applicant applicant = this.modelMapperService.forRequest().map(createApplicantRequest, Applicant.class);
+		checkEmail(createApplicantRequest.getEmail());
 		this.applicantRepository.save(applicant);
 
 		CreateApplicantResponse applicantResponse = this.modelMapperService.forResponse().map(applicant,
@@ -56,7 +57,7 @@ public class ApplicantManager implements ApplicantService {
 
 	@Override
 	public GetApplicantResponse getByName(String name) {
-		Applicant applicant = applicantRepository.findByName(name).get();
+		Applicant applicant = applicantRepository.findByFirstName(name).get();
 		GetApplicantResponse applicantResponse = this.modelMapperService.forResponse().map(applicant,
 				GetApplicantResponse.class);
 		return applicantResponse;
@@ -106,6 +107,12 @@ public class ApplicantManager implements ApplicantService {
 		UpdateApplicantResponse applicantResponse = this.modelMapperService.forResponse().map(applicant,
 				UpdateApplicantResponse.class);
 		return applicantResponse;
+	}
+	
+	public void checkEmail(String email) throws Exception{
+		if(applicantRepository.existsByEmail(email)) {
+			throw new Exception("email var");
+		}
 	}
 
 }

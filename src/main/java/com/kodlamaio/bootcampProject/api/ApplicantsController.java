@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kodlamaio.bootcampProject.business.abstracts.ApplicantService;
+import com.kodlamaio.bootcampProject.business.abstracts.users.ApplicantService;
 import com.kodlamaio.bootcampProject.business.requests.create.CreateApplicantRequest;
 import com.kodlamaio.bootcampProject.business.requests.update.UpdateApplicantRequest;
 import com.kodlamaio.bootcampProject.business.responses.create.CreateApplicantResponse;
@@ -34,7 +34,7 @@ public class ApplicantsController {
     }
 
     @PostMapping("/add")
-    public CreateApplicantResponse add(@RequestBody() CreateApplicantRequest createApplicantRequest) {
+    public CreateApplicantResponse add(@RequestBody() CreateApplicantRequest createApplicantRequest) throws Exception {
         return this.applicantService.add(createApplicantRequest);
     }
 

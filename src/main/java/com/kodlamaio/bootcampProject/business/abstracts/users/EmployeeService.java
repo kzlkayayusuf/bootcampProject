@@ -1,4 +1,4 @@
-package com.kodlamaio.bootcampProject.business.abstracts;
+package com.kodlamaio.bootcampProject.business.abstracts.users;
 
 import java.util.List;
 

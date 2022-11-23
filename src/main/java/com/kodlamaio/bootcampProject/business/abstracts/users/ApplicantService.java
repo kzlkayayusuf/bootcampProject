@@ -1,4 +1,4 @@
-package com.kodlamaio.bootcampProject.business.abstracts;
+package com.kodlamaio.bootcampProject.business.abstracts.users;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import com.kodlamaio.bootcampProject.business.responses.update.UpdateApplicantRe
 public interface ApplicantService {
 	List<GetAllApplicantsResponse> getAll();
 
-	   CreateApplicantResponse add(CreateApplicantRequest createApplicantRequest);
+	   CreateApplicantResponse add(CreateApplicantRequest createApplicantRequest) throws Exception;
 
 	   GetApplicantResponse getByName(String name);
 
