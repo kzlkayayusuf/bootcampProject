@@ -1,8 +1,13 @@
 package com.kodlamaio.bootcampProject.entities.users;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.kodlamaio.bootcampProject.entities.applications.Bootcamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,6 +23,9 @@ public class Instructor extends User {
 	@Column(name="campanyName")
 	private String companyName;
 
+	@OneToMany(mappedBy = "instructor")
+	List<Bootcamp> bootcamps;
+	
 //	@OneToOne
 //	@MapsId
 //	private User user;

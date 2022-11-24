@@ -17,4 +17,16 @@ public class Messages {
 	public static final String AllApplicantDeleted = "All Applicant Deleted!";
 	public static final String ApplicantUpdated = "Applicant Updated!";
 
+	public static final String IdentityExists = "National Identity Already Exists";
+	public static final String IdNotExists = "That Id Not Exists";
+	public static final String NameNotExists = "That Name Not Exists";
+
+	public static final String BootcampCreated = "Bootcamp Created!";
+	public static final String BootcampDeleted = "Bootcamp Deleted!";
+	public static final String AllBootcampDeleted = "All Bootcamp Deleted!";
+	public static final String BootcampUpdated = "Bootcamp Updated!";
+	public static final String NameExists = "Bootcamp Already Exists";
+	public static final String ApplicationCreated = "Application Created!";
+	public static final String ApplicationDeleted = "Application Deleted!";
+	public static final String ApplicationUpdated = "Application Updated!";
 }

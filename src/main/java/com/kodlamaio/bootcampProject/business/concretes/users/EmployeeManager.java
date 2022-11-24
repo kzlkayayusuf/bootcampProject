@@ -13,6 +13,7 @@ import com.kodlamaio.bootcampProject.business.responses.create.CreateEmployeeRes
 import com.kodlamaio.bootcampProject.business.responses.read.GetAllEmployeeResponse;
 import com.kodlamaio.bootcampProject.business.responses.read.GetEmployeeResponse;
 import com.kodlamaio.bootcampProject.business.responses.update.UpdateEmployeeResponse;
+import com.kodlamaio.bootcampProject.core.utilities.exceptions.BusinessException;
 import com.kodlamaio.bootcampProject.core.utilities.mapping.ModelMapperService;
 import com.kodlamaio.bootcampProject.core.utilities.results.DataResult;
 import com.kodlamaio.bootcampProject.core.utilities.results.Result;
@@ -41,6 +42,7 @@ public class EmployeeManager implements EmployeeService {
 
 	@Override
 	public DataResult<CreateEmployeeResponse> add(CreateEmployeeRequest createEmployeeRequest) {
+		checkIfEmployeeExistsByNationalityIdentity(createEmployeeRequest.getNationalityIdentity());
 		Employee employee = this.modelMapperService.forRequest().map(createEmployeeRequest, Employee.class);
 		this.employeeRepository.save(employee);
 
@@ -51,7 +53,8 @@ public class EmployeeManager implements EmployeeService {
 
 	@Override
 	public DataResult<GetEmployeeResponse> getByName(String name) {
-		Employee employee = this.employeeRepository.findByFirstName(name).get();
+		checkIfEmployeeNotExistsByFirstName(name);
+		Employee employee = this.employeeRepository.findByFirstName(name);
 		GetEmployeeResponse employeeResponse = this.modelMapperService.forResponse().map(employee,
 				GetEmployeeResponse.class);
 
@@ -60,7 +63,8 @@ public class EmployeeManager implements EmployeeService {
 
 	@Override
 	public DataResult<GetEmployeeResponse> getById(int id) {
-		Employee employee = this.employeeRepository.findById(id).get();
+		checkIfEmployeeNotExistsById(id);
+		Employee employee = this.employeeRepository.findById(id);
 		GetEmployeeResponse employeeResponse = this.modelMapperService.forResponse().map(employee,
 				GetEmployeeResponse.class);
 
@@ -69,6 +73,7 @@ public class EmployeeManager implements EmployeeService {
 
 	@Override
 	public Result deleteById(int id) {
+		checkIfEmployeeNotExistsById(id);
 		this.employeeRepository.deleteById(id);
 		return new SuccessResult(Messages.EmployeeDeleted);
 	}
@@ -85,12 +90,34 @@ public class EmployeeManager implements EmployeeService {
 
 	@Override
 	public DataResult<UpdateEmployeeResponse> update(UpdateEmployeeRequest updateEmployeeRequest) {
+		checkIfEmployeeNotExistsById(updateEmployeeRequest.getId());
 		Employee employee = this.modelMapperService.forRequest().map(updateEmployeeRequest, Employee.class);
 		this.employeeRepository.save(employee);
 		UpdateEmployeeResponse employeeResponse = this.modelMapperService.forResponse().map(employee,
 				UpdateEmployeeResponse.class);
 
 		return new SuccessDataResult<UpdateEmployeeResponse>(employeeResponse, Messages.EmployeeUpdated);
+	}
+
+	public void checkIfEmployeeExistsByNationalityIdentity(String nationalityIdentity) {
+		Employee employee = this.employeeRepository.findByNationalityIdentity(nationalityIdentity);
+		if (employee != null) {
+			throw new BusinessException(Messages.IdentityExists);
+		}
+	}
+
+	public void checkIfEmployeeNotExistsById(int id) {
+		Employee employee = this.employeeRepository.findById(id);
+		if (employee == null) {
+			throw new BusinessException(Messages.IdNotExists);
+		}
+	}
+
+	public void checkIfEmployeeNotExistsByFirstName(String firstName) {
+		Employee employee = this.employeeRepository.findByFirstName(firstName);
+		if (employee == null) {
+			throw new BusinessException(Messages.NameNotExists);
+		}
 	}
 
 }

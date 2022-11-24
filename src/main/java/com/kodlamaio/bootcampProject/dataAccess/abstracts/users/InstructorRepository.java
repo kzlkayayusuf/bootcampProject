@@ -1,11 +1,13 @@
 package com.kodlamaio.bootcampProject.dataAccess.abstracts.users;
 
-import java.util.Optional;
-
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.kodlamaio.bootcampProject.entities.users.Instructor;
 
-public interface InstructorRepository extends JpaRepository<Instructor,Integer> {
-	Optional<Instructor> findByFirstName(String name);
+public interface InstructorRepository extends JpaRepository<Instructor, Integer> {
+	Instructor findByFirstName(String name);
+
+	Instructor findByNationalityIdentity(String nationalityIdentity);
+
+	Instructor findById(int id);
 }

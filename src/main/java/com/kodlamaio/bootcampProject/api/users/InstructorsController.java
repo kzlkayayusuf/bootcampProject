@@ -1,4 +1,4 @@
-package com.kodlamaio.bootcampProject.api;
+package com.kodlamaio.bootcampProject.api.users;
 
 import java.util.List;
 

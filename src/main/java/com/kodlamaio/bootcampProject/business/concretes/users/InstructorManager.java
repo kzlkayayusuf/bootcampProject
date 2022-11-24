@@ -13,6 +13,7 @@ import com.kodlamaio.bootcampProject.business.responses.create.CreateInstructorR
 import com.kodlamaio.bootcampProject.business.responses.read.GetAllInstructorResponse;
 import com.kodlamaio.bootcampProject.business.responses.read.GetInstructorResponse;
 import com.kodlamaio.bootcampProject.business.responses.update.UpdateInstructorResponse;
+import com.kodlamaio.bootcampProject.core.utilities.exceptions.BusinessException;
 import com.kodlamaio.bootcampProject.core.utilities.mapping.ModelMapperService;
 import com.kodlamaio.bootcampProject.core.utilities.results.DataResult;
 import com.kodlamaio.bootcampProject.core.utilities.results.Result;
@@ -42,6 +43,7 @@ public class InstructorManager implements InstructorService {
 
 	@Override
 	public DataResult<CreateInstructorResponse> add(CreateInstructorRequest createInstructorRequest) {
+		checkIfInstructorExistsByNationalityIdentity(createInstructorRequest.getNationalityIdentity());
 		Instructor instructor = this.modelMapperService.forRequest().map(createInstructorRequest, Instructor.class);
 		this.instructorRepository.save(instructor);
 
@@ -52,7 +54,8 @@ public class InstructorManager implements InstructorService {
 
 	@Override
 	public DataResult<GetInstructorResponse> getByName(String name) {
-		Instructor instructor = instructorRepository.findByFirstName(name).get();
+		checkIfInstructorNotExistsByFirstName(name);
+		Instructor instructor = instructorRepository.findByFirstName(name);
 		GetInstructorResponse instructorResponse = this.modelMapperService.forResponse().map(instructor,
 				GetInstructorResponse.class);
 		return new SuccessDataResult<GetInstructorResponse>(instructorResponse);
@@ -60,7 +63,8 @@ public class InstructorManager implements InstructorService {
 
 	@Override
 	public DataResult<GetInstructorResponse> getById(int id) {
-		Instructor instructor = this.instructorRepository.findById(id).get();
+		checkIfInstructorNotExistsById(id);
+		Instructor instructor = this.instructorRepository.findById(id);
 		GetInstructorResponse instructorResponse = this.modelMapperService.forResponse().map(instructor,
 				GetInstructorResponse.class);
 		return new SuccessDataResult<GetInstructorResponse>(instructorResponse);
@@ -69,7 +73,7 @@ public class InstructorManager implements InstructorService {
 
 	@Override
 	public Result deleteById(int id) {
-
+		checkIfInstructorNotExistsById(id);
 		this.instructorRepository.deleteById(id);
 		return new SuccessResult(Messages.InstructorDeleted);
 	}
@@ -88,12 +92,34 @@ public class InstructorManager implements InstructorService {
 
 	@Override
 	public DataResult<UpdateInstructorResponse> update(UpdateInstructorRequest updateInstructorRequest) {
+		checkIfInstructorNotExistsById(updateInstructorRequest.getId());
 		Instructor instructor = this.modelMapperService.forRequest().map(updateInstructorRequest, Instructor.class);
 		this.instructorRepository.save(instructor);
 
 		UpdateInstructorResponse instructorResponse = this.modelMapperService.forResponse().map(instructor,
 				UpdateInstructorResponse.class);
 		return new SuccessDataResult<UpdateInstructorResponse>(instructorResponse, Messages.InstructorUpdated);
+	}
+
+	public void checkIfInstructorExistsByNationalityIdentity(String nationalityIdentity) {
+		Instructor instructor = this.instructorRepository.findByNationalityIdentity(nationalityIdentity);
+		if (instructor != null) {
+			throw new BusinessException(Messages.IdentityExists);
+		}
+	}
+
+	public void checkIfInstructorNotExistsById(int id) {
+		Instructor instructor = this.instructorRepository.findById(id);
+		if (instructor == null) {
+			throw new BusinessException(Messages.IdNotExists);
+		}
+	}
+
+	public void checkIfInstructorNotExistsByFirstName(String firstName) {
+		Instructor instructor = this.instructorRepository.findByFirstName(firstName);
+		if (instructor == null) {
+			throw new BusinessException(Messages.NameNotExists);
+		}
 	}
 
 }
