@@ -25,4 +25,6 @@ public interface BootcampService {
 	DataResult<List<GetAllBootcampResponse>> deleteAll();
 
 	DataResult<UpdateBootcampResponse> update(UpdateBootcampRequest updateBootcampRequest);
+	
+	void checkIfBootcampIsActive(int id);
 }

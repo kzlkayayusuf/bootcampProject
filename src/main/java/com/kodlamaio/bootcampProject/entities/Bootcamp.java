@@ -46,5 +46,5 @@ public class Bootcamp {
 	private Instructor instructor;
 	
 	@OneToMany(mappedBy = "bootcamp")
-	List<Application> applications;
+	private List<Application> applications;
 }

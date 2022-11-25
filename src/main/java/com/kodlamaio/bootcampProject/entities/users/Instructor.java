@@ -14,18 +14,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name="instructors")
+@Table(name = "instructors")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class Instructor extends User {
-	
-	@Column(name="campanyName")
+
+	@Column(name = "companyName")
 	private String companyName;
 
 	@OneToMany(mappedBy = "instructor")
-	List<Bootcamp> bootcamps;
-	
+private	List<Bootcamp> bootcamps;
+
 //	@OneToOne
 //	@MapsId
 //	private User user;

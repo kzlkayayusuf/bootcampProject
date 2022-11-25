@@ -3,6 +3,7 @@ package com.kodlamaio.bootcampProject.business.concretes;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kodlamaio.bootcampProject.business.abstracts.BootcampService;
@@ -28,6 +29,7 @@ import lombok.AllArgsConstructor;
 @Service
 public class BootcampManager implements BootcampService {
 
+	
 	private BootcampRepository bootcampRepository;
 	private ModelMapperService modelMapperService;
 
@@ -44,7 +46,11 @@ public class BootcampManager implements BootcampService {
 	public DataResult<CreateBootcampResponse> add(CreateBootcampRequest createBootcampRequest) {
 		checkIfBootcampExistsByName(createBootcampRequest.getName());
 		Bootcamp bootcamp = this.modelMapperService.forRequest().map(createBootcampRequest, Bootcamp.class);
+		bootcamp.setId(0);
+		System.out.println(bootcamp.getId());
 		this.bootcampRepository.save(bootcamp);
+		System.out.println(bootcamp.getId());
+	
 
 		CreateBootcampResponse bootcampResponse = this.modelMapperService.forResponse().map(bootcamp,
 				CreateBootcampResponse.class);
@@ -120,6 +126,15 @@ public class BootcampManager implements BootcampService {
 		if (bootcamp == null) {
 			throw new BusinessException(Messages.NameNotExists);
 		}
+	}
+
+	@Override
+	public void checkIfBootcampIsActive(int id) {
+		 Bootcamp bootcamp = bootcampRepository.findById(id);
+	        if(bootcamp.getState() == 2){
+	            throw new BusinessException(Messages.BootcampIsNotActive);
+	        }
+		
 	}
 
 }

@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAllInstructorResponse extends UserResponse{
+public class GetAllInstructorResponse extends UserResponse {
 	private int id;
 	private String companyName;
- 
+
 }

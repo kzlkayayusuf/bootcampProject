@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateEmployeeRequest extends UserRequest  {
+public class CreateEmployeeRequest extends UserRequest {
 	private String position;
-	
+
 }

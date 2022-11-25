@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UpdateEmployeeRequest extends UserRequest  {
+public class UpdateEmployeeRequest extends UserRequest {
 	private int id;
 	private String position;
-	
+
 }

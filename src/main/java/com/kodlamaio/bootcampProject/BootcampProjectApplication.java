@@ -46,7 +46,7 @@ public class BootcampProjectApplication {
 	@ExceptionHandler
 	@ResponseStatus(code = HttpStatus.BAD_REQUEST)
 	public ErrorDataResult<Object> handleBusinessException(BusinessException businessException){
-		 ErrorDataResult<Object> errorDataResult =new ErrorDataResult<Object>(businessException.getMessage(),"Business Exception");
+		 ErrorDataResult<Object> errorDataResult =new ErrorDataResult<Object>(businessException.getMessage(),"BUSINESS EXCEPTION");
 		 return errorDataResult;
 	}
 

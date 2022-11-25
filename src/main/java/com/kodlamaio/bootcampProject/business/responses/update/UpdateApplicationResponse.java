@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateApplicationResponse {
-	
+
 	private int id;
 	private int userId;
 	private int bootcampId;

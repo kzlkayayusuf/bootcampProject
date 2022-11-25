@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class GetAllEmployeeResponse extends UserResponse {
 	private int id;
 	private String position;
-	 
+
 }

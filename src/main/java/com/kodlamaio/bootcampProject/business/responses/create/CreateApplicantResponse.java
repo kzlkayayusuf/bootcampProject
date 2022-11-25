@@ -9,8 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateApplicantResponse extends UserResponse{
+public class CreateApplicantResponse extends UserResponse {
 	private int id;
 	private String about;
-	
+
 }

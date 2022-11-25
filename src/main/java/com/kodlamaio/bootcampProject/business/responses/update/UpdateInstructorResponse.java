@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class UpdateInstructorResponse extends UserResponse {
 	private int id;
 	private String companyName;
-	 
+
 }

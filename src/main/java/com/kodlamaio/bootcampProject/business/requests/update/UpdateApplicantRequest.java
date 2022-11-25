@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class UpdateApplicantRequest extends UserRequest {
 	private int id;
 	private String about;
-	
+
 }

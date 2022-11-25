@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class GetAllApplicantResponse extends UserResponse {
 	private int id;
 	private String about;
-	 
+
 }

@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateInstructorRequest extends UserRequest {
 	private String companyName;
-	
+
 }

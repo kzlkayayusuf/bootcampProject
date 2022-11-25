@@ -31,4 +31,5 @@ public class Messages {
 	public static final String ApplicationUpdated = "Application Updated!";
 	
 	public static final String ApplicationUserHasApplication = "User Already Have Application";
+	public static final String BootcampIsNotActive = "Bootcamp Not Active";
 }

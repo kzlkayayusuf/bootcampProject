@@ -45,6 +45,7 @@ public class ApplicationManager implements ApplicationService {
 	@Override
 	public DataResult<CreateApplicationResponse> add(CreateApplicationRequest createApplicationRequest) {
 		checkIfUserHasApplication(createApplicationRequest.getUserId());
+		bootcampService.checkIfBootcampIsActive(createApplicationRequest.getBootcampId());
 		Application application = this.modelMapperService.forRequest().map(createApplicationRequest, Application.class);
 		this.applicationRepository.save(application);
 		CreateApplicationResponse applicationResponse = this.modelMapperService.forResponse().map(application,
