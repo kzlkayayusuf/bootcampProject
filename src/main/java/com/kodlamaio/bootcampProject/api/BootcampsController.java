@@ -1,4 +1,4 @@
-package com.kodlamaio.bootcampProject.api.applications;
+package com.kodlamaio.bootcampProject.api;
 
 import java.util.List;
 
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.kodlamaio.bootcampProject.business.abstracts.applications.BootcampService;
+import com.kodlamaio.bootcampProject.business.abstracts.BootcampService;
 import com.kodlamaio.bootcampProject.business.requests.create.CreateBootcampRequest;
 import com.kodlamaio.bootcampProject.business.requests.update.UpdateBootcampRequest;
 import com.kodlamaio.bootcampProject.business.responses.create.CreateBootcampResponse;

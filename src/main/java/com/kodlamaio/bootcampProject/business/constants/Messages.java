@@ -29,4 +29,6 @@ public class Messages {
 	public static final String ApplicationCreated = "Application Created!";
 	public static final String ApplicationDeleted = "Application Deleted!";
 	public static final String ApplicationUpdated = "Application Updated!";
+	
+	public static final String ApplicationUserHasApplication = "User Already Have Application";
 }

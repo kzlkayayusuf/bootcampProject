@@ -9,6 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.kodlamaio.bootcampProject.entities.Bootcamp;
 import com.kodlamaio.bootcampProject.entities.users.User;
 
 import lombok.AllArgsConstructor;

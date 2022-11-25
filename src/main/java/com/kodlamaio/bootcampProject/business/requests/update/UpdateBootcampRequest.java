@@ -1,5 +1,7 @@
 package com.kodlamaio.bootcampProject.business.requests.update;
 
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,7 +14,7 @@ public class UpdateBootcampRequest {
 	private String name;
 	private int instructorId;
 	private int state;
-	private String dateStart;
-	private String dateEnd;
+	private LocalDate dateStart;
+	private LocalDate dateEnd;
 
 }

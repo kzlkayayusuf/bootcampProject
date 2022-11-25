@@ -12,4 +12,7 @@ public class GetAllApplicationResponse {
 	private int userId;
 	private int bootcampId;
 	private int state;
+	private String bootcampName;
+	private String userFirstName;
+	private String userLastName;
 }

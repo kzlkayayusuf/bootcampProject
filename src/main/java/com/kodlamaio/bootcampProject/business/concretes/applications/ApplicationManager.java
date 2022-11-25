@@ -5,6 +5,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.kodlamaio.bootcampProject.business.abstracts.BootcampService;
 import com.kodlamaio.bootcampProject.business.abstracts.applications.ApplicationService;
 import com.kodlamaio.bootcampProject.business.constants.Messages;
 import com.kodlamaio.bootcampProject.business.requests.create.CreateApplicationRequest;
@@ -29,6 +30,7 @@ import lombok.AllArgsConstructor;
 public class ApplicationManager implements ApplicationService {
 
 	private ApplicationRepository applicationRepository;
+	private BootcampService bootcampService;
 	private ModelMapperService modelMapperService;
 
 	@Override
@@ -42,6 +44,7 @@ public class ApplicationManager implements ApplicationService {
 
 	@Override
 	public DataResult<CreateApplicationResponse> add(CreateApplicationRequest createApplicationRequest) {
+		checkIfUserHasApplication(createApplicationRequest.getUserId());
 		Application application = this.modelMapperService.forRequest().map(createApplicationRequest, Application.class);
 		this.applicationRepository.save(application);
 		CreateApplicationResponse applicationResponse = this.modelMapperService.forResponse().map(application,
@@ -91,6 +94,12 @@ public class ApplicationManager implements ApplicationService {
 		Application application = this.applicationRepository.findById(id);
 		if (application == null) {
 			throw new BusinessException(Messages.IdNotExists);
+		}
+	}
+
+	public void checkIfUserHasApplication(int userId) {
+		if (applicationRepository.findById(userId) != null) {
+			throw new BusinessException(Messages.ApplicationUserHasApplication);
 		}
 	}
 

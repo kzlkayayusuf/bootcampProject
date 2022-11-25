@@ -1,5 +1,7 @@
 package com.kodlamaio.bootcampProject.business.responses.read;
 
+import java.time.LocalDate;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +15,8 @@ public class GetBootcampResponse {
 	private String name;
 	private int instructorId;
 	private int state;
-	private String dateStart;
-	private String dateEnd;
+	private LocalDate dateStart;
+	private LocalDate dateEnd;
+	private String instructorFirstName;
+	private String insructorLastName;
 }

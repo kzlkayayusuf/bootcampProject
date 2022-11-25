@@ -1,4 +1,4 @@
-package com.kodlamaio.bootcampProject.entities.applications;
+package com.kodlamaio.bootcampProject.entities;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -14,6 +14,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.kodlamaio.bootcampProject.entities.users.Instructor;
+import com.kodlamaio.bootcampProject.entities.applications.Application;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

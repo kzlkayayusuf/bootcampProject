@@ -1,11 +1,11 @@
-package com.kodlamaio.bootcampProject.business.concretes.applications;
+package com.kodlamaio.bootcampProject.business.concretes;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.kodlamaio.bootcampProject.business.abstracts.applications.BootcampService;
+import com.kodlamaio.bootcampProject.business.abstracts.BootcampService;
 import com.kodlamaio.bootcampProject.business.constants.Messages;
 import com.kodlamaio.bootcampProject.business.requests.create.CreateBootcampRequest;
 import com.kodlamaio.bootcampProject.business.requests.update.UpdateBootcampRequest;
@@ -19,8 +19,8 @@ import com.kodlamaio.bootcampProject.core.utilities.results.DataResult;
 import com.kodlamaio.bootcampProject.core.utilities.results.Result;
 import com.kodlamaio.bootcampProject.core.utilities.results.SuccessDataResult;
 import com.kodlamaio.bootcampProject.core.utilities.results.SuccessResult;
-import com.kodlamaio.bootcampProject.dataAccess.abstracts.applications.BootcampRepository;
-import com.kodlamaio.bootcampProject.entities.applications.Bootcamp;
+import com.kodlamaio.bootcampProject.dataAccess.abstracts.BootcampRepository;
+import com.kodlamaio.bootcampProject.entities.Bootcamp;
 
 import lombok.AllArgsConstructor;
 

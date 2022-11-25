@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.kodlamaio.bootcampProject.entities.applications.Bootcamp;
+import com.kodlamaio.bootcampProject.entities.Bootcamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
