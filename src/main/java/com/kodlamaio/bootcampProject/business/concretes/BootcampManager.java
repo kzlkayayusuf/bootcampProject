@@ -47,10 +47,7 @@ public class BootcampManager implements BootcampService {
 		checkIfBootcampExistsByName(createBootcampRequest.getName());
 		Bootcamp bootcamp = this.modelMapperService.forRequest().map(createBootcampRequest, Bootcamp.class);
 		bootcamp.setId(0);
-		System.out.println(bootcamp.getId());
 		this.bootcampRepository.save(bootcamp);
-		System.out.println(bootcamp.getId());
-	
 
 		CreateBootcampResponse bootcampResponse = this.modelMapperService.forResponse().map(bootcamp,
 				CreateBootcampResponse.class);
