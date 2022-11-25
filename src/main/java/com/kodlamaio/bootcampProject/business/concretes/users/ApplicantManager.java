@@ -7,12 +7,12 @@ import org.springframework.stereotype.Service;
 
 import com.kodlamaio.bootcampProject.business.abstracts.users.ApplicantService;
 import com.kodlamaio.bootcampProject.business.constants.Messages;
-import com.kodlamaio.bootcampProject.business.requests.create.CreateApplicantRequest;
-import com.kodlamaio.bootcampProject.business.requests.update.UpdateApplicantRequest;
-import com.kodlamaio.bootcampProject.business.responses.create.CreateApplicantResponse;
-import com.kodlamaio.bootcampProject.business.responses.read.GetAllApplicantResponse;
-import com.kodlamaio.bootcampProject.business.responses.read.GetApplicantResponse;
-import com.kodlamaio.bootcampProject.business.responses.update.UpdateApplicantResponse;
+import com.kodlamaio.bootcampProject.business.requests.users.applicants.CreateApplicantRequest;
+import com.kodlamaio.bootcampProject.business.requests.users.applicants.UpdateApplicantRequest;
+import com.kodlamaio.bootcampProject.business.responses.users.applicants.CreateApplicantResponse;
+import com.kodlamaio.bootcampProject.business.responses.users.applicants.GetAllApplicantResponse;
+import com.kodlamaio.bootcampProject.business.responses.users.applicants.GetApplicantResponse;
+import com.kodlamaio.bootcampProject.business.responses.users.applicants.UpdateApplicantResponse;
 import com.kodlamaio.bootcampProject.core.utilities.exceptions.BusinessException;
 import com.kodlamaio.bootcampProject.core.utilities.mapping.ModelMapperService;
 import com.kodlamaio.bootcampProject.core.utilities.results.DataResult;

@@ -2,12 +2,12 @@ package com.kodlamaio.bootcampProject.business.abstracts.users;
 
 import java.util.List;
 
-import com.kodlamaio.bootcampProject.business.requests.create.CreateEmployeeRequest;
-import com.kodlamaio.bootcampProject.business.requests.update.UpdateEmployeeRequest;
-import com.kodlamaio.bootcampProject.business.responses.create.CreateEmployeeResponse;
-import com.kodlamaio.bootcampProject.business.responses.read.GetAllEmployeeResponse;
-import com.kodlamaio.bootcampProject.business.responses.read.GetEmployeeResponse;
-import com.kodlamaio.bootcampProject.business.responses.update.UpdateEmployeeResponse;
+import com.kodlamaio.bootcampProject.business.requests.users.employees.CreateEmployeeRequest;
+import com.kodlamaio.bootcampProject.business.requests.users.employees.UpdateEmployeeRequest;
+import com.kodlamaio.bootcampProject.business.responses.users.employees.CreateEmployeeResponse;
+import com.kodlamaio.bootcampProject.business.responses.users.employees.GetAllEmployeeResponse;
+import com.kodlamaio.bootcampProject.business.responses.users.employees.GetEmployeeResponse;
+import com.kodlamaio.bootcampProject.business.responses.users.employees.UpdateEmployeeResponse;
 import com.kodlamaio.bootcampProject.core.utilities.results.DataResult;
 import com.kodlamaio.bootcampProject.core.utilities.results.Result;
 

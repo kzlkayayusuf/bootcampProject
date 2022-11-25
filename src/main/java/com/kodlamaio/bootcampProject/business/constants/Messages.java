@@ -32,4 +32,10 @@ public class Messages {
 	
 	public static final String ApplicationUserHasApplication = "User Already Have Application";
 	public static final String BootcampIsNotActive = "Bootcamp Not Active";
+	
+	public static final String BlacklistCreated = "Blacklist Created!";
+	public static final String BlacklistDeleted = "Blacklist Deleted!";
+	public static final String BlacklistUpdated = "Blacklist Updated!";
+	
+	
 }

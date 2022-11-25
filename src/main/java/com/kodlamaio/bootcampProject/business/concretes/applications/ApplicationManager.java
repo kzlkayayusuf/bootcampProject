@@ -5,15 +5,15 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import com.kodlamaio.bootcampProject.business.abstracts.BootcampService;
 import com.kodlamaio.bootcampProject.business.abstracts.applications.ApplicationService;
+import com.kodlamaio.bootcampProject.business.abstracts.bootcamps.BootcampService;
 import com.kodlamaio.bootcampProject.business.constants.Messages;
-import com.kodlamaio.bootcampProject.business.requests.create.CreateApplicationRequest;
-import com.kodlamaio.bootcampProject.business.requests.update.UpdateApplicationRequest;
-import com.kodlamaio.bootcampProject.business.responses.create.CreateApplicationResponse;
-import com.kodlamaio.bootcampProject.business.responses.read.GetAllApplicationResponse;
-import com.kodlamaio.bootcampProject.business.responses.read.GetApplicationResponse;
-import com.kodlamaio.bootcampProject.business.responses.update.UpdateApplicationResponse;
+import com.kodlamaio.bootcampProject.business.requests.applications.CreateApplicationRequest;
+import com.kodlamaio.bootcampProject.business.requests.applications.UpdateApplicationRequest;
+import com.kodlamaio.bootcampProject.business.responses.applications.CreateApplicationResponse;
+import com.kodlamaio.bootcampProject.business.responses.applications.GetAllApplicationResponse;
+import com.kodlamaio.bootcampProject.business.responses.applications.GetApplicationResponse;
+import com.kodlamaio.bootcampProject.business.responses.applications.UpdateApplicationResponse;
 import com.kodlamaio.bootcampProject.core.utilities.exceptions.BusinessException;
 import com.kodlamaio.bootcampProject.core.utilities.mapping.ModelMapperService;
 import com.kodlamaio.bootcampProject.core.utilities.results.DataResult;

@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.kodlamaio.bootcampProject.entities.Bootcamp;
+import com.kodlamaio.bootcampProject.entities.bootcamps.Bootcamp;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,7 +24,7 @@ public class Instructor extends User {
 	private String companyName;
 
 	@OneToMany(mappedBy = "instructor")
-private	List<Bootcamp> bootcamps;
+	private	List<Bootcamp> bootcamps;
 
 //	@OneToOne
 //	@MapsId
