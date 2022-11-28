@@ -3,14 +3,15 @@ package com.kodlamaio.bootcampProject.business.responses.users.applicants;
 import com.kodlamaio.bootcampProject.business.responses.users.UserResponse;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateApplicantResponse extends UserResponse {
-	private int id;
 	private String about;
 
 }

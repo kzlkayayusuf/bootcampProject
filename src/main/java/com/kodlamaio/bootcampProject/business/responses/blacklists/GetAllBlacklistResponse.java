@@ -1,4 +1,4 @@
-package com.kodlamaio.bootcampProject.business.responses.blacklist;
+package com.kodlamaio.bootcampProject.business.responses.blacklists;
 
 import java.time.LocalDate;
 
@@ -11,12 +11,12 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class GetAllBlackListResponse {
+public class GetAllBlacklistResponse {
 	private int id;
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate date;
 	private String reason;
 	private int applicantId;
-	private String userFirstName;
-	private String userLastName;
+	private String applicantFirstName;
+	private String applicantLastName;
 }

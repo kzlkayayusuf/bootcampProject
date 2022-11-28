@@ -1,7 +1,6 @@
 package com.kodlamaio.bootcampProject.entities.users;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,10 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-
-import com.kodlamaio.bootcampProject.entities.applications.Application;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -38,13 +34,10 @@ public class User {
 	private String email;
 	@Column(name = "password")
 	private String password;
-	@Column(name = "date")
+	@Column(name = "dateOfBirth")
 	private LocalDate dateOfBirth;
 	@Column(name = "nationalityIdentity")
 	private String nationalityIdentity;
-
-	@OneToMany(mappedBy = "user")
-	List<Application> applications;
 
 //	@OneToOne(mappedBy = "user")
 //	@PrimaryKeyJoinColumn

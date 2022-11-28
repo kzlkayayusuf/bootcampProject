@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class CreateApplicationResponse {
 	private int id;
-	private int userId;
+	private int applicantId;
 	private int bootcampId;
 	private int state;
 }

@@ -38,7 +38,7 @@ public class InstructorManager implements InstructorService {
 				instructor -> this.modelMapperService.forResponse().map(instructor, GetAllInstructorResponse.class))
 				.collect(Collectors.toList());
 
-		return new SuccessDataResult<List<GetAllInstructorResponse>>(instructorsResponse);
+		return new SuccessDataResult<List<GetAllInstructorResponse>>(instructorsResponse, Messages.Instructor.ListAll);
 	}
 
 	@Override
@@ -49,16 +49,17 @@ public class InstructorManager implements InstructorService {
 
 		CreateInstructorResponse instructorResponse = this.modelMapperService.forResponse().map(instructor,
 				CreateInstructorResponse.class);
-		return new SuccessDataResult<CreateInstructorResponse>(instructorResponse, Messages.InstructorCreated);
+		return new SuccessDataResult<CreateInstructorResponse>(instructorResponse, Messages.Instructor.Created);
 	}
 
 	@Override
-	public DataResult<GetInstructorResponse> getByName(String name) {
+	public DataResult<List<GetAllInstructorResponse>> getByName(String name) {
 		checkIfInstructorNotExistsByFirstName(name);
-		Instructor instructor = instructorRepository.findByFirstName(name);
-		GetInstructorResponse instructorResponse = this.modelMapperService.forResponse().map(instructor,
-				GetInstructorResponse.class);
-		return new SuccessDataResult<GetInstructorResponse>(instructorResponse);
+		List<Instructor> instructors = instructorRepository.findByFirstName(name);
+		List<GetAllInstructorResponse> instructorResponse = instructors.stream()
+				.map(instructor -> this.modelMapperService.forResponse().map(instructor, GetAllInstructorResponse.class))
+				.collect(Collectors.toList());
+		return new SuccessDataResult<List<GetAllInstructorResponse>>(instructorResponse,Messages.Instructor.ListByName);
 	}
 
 	@Override
@@ -67,7 +68,7 @@ public class InstructorManager implements InstructorService {
 		Instructor instructor = this.instructorRepository.findById(id);
 		GetInstructorResponse instructorResponse = this.modelMapperService.forResponse().map(instructor,
 				GetInstructorResponse.class);
-		return new SuccessDataResult<GetInstructorResponse>(instructorResponse);
+		return new SuccessDataResult<GetInstructorResponse>(instructorResponse,Messages.Instructor.ListById);
 
 	}
 
@@ -75,7 +76,7 @@ public class InstructorManager implements InstructorService {
 	public Result deleteById(int id) {
 		checkIfInstructorNotExistsById(id);
 		this.instructorRepository.deleteById(id);
-		return new SuccessResult(Messages.InstructorDeleted);
+		return new SuccessResult(Messages.Instructor.Deleted);
 	}
 
 	@Override
@@ -87,39 +88,57 @@ public class InstructorManager implements InstructorService {
 
 		this.instructorRepository.deleteAll();
 		return new SuccessDataResult<List<GetAllInstructorResponse>>(instructorsResponse,
-				Messages.AllInstructorDeleted);
+				Messages.Instructor.AllDeleted);
 	}
 
 	@Override
 	public DataResult<UpdateInstructorResponse> update(UpdateInstructorRequest updateInstructorRequest) {
 		checkIfInstructorNotExistsById(updateInstructorRequest.getId());
+		checkIfInstructorNotExistsByNationalityIdentity(updateInstructorRequest.getNationalityIdentity());
 		Instructor instructor = this.modelMapperService.forRequest().map(updateInstructorRequest, Instructor.class);
 		this.instructorRepository.save(instructor);
 
 		UpdateInstructorResponse instructorResponse = this.modelMapperService.forResponse().map(instructor,
 				UpdateInstructorResponse.class);
-		return new SuccessDataResult<UpdateInstructorResponse>(instructorResponse, Messages.InstructorUpdated);
+		return new SuccessDataResult<UpdateInstructorResponse>(instructorResponse, Messages.Instructor.Updated);
+	}
+	
+	@Override
+	public void checkIfInstructorExistById(int id) {
+		if(!this.instructorRepository.existsById(id)) {
+			throw new BusinessException(Messages.Instructor.NotExists);
+		}
+		
 	}
 
 	public void checkIfInstructorExistsByNationalityIdentity(String nationalityIdentity) {
 		Instructor instructor = this.instructorRepository.findByNationalityIdentity(nationalityIdentity);
 		if (instructor != null) {
-			throw new BusinessException(Messages.IdentityExists);
+			throw new BusinessException(Messages.Instructor.Exists);
+		}
+	}
+	
+	public void checkIfInstructorNotExistsByNationalityIdentity(String nationalityIdentity) {
+		Instructor instructor = this.instructorRepository.findByNationalityIdentity(nationalityIdentity);
+		if (instructor == null) {
+			throw new BusinessException(Messages.Instructor.NotExists);
 		}
 	}
 
 	public void checkIfInstructorNotExistsById(int id) {
 		Instructor instructor = this.instructorRepository.findById(id);
 		if (instructor == null) {
-			throw new BusinessException(Messages.IdNotExists);
+			throw new BusinessException(Messages.Instructor.NotExists);
 		}
 	}
 
 	public void checkIfInstructorNotExistsByFirstName(String firstName) {
-		Instructor instructor = this.instructorRepository.findByFirstName(firstName);
-		if (instructor == null) {
-			throw new BusinessException(Messages.NameNotExists);
+		List<Instructor> instructors = this.instructorRepository.findByFirstName(firstName);
+		if (instructors.isEmpty()) {
+			throw new BusinessException(Messages.Instructor.NameNotExists);
 		}
 	}
+
+	
 
 }

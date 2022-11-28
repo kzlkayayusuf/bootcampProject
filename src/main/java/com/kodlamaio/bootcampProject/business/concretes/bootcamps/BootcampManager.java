@@ -1,12 +1,13 @@
 package com.kodlamaio.bootcampProject.business.concretes.bootcamps;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.kodlamaio.bootcampProject.business.abstracts.bootcamps.BootcampService;
+import com.kodlamaio.bootcampProject.business.abstracts.users.InstructorService;
 import com.kodlamaio.bootcampProject.business.constants.Messages;
 import com.kodlamaio.bootcampProject.business.requests.bootcamps.CreateBootcampRequest;
 import com.kodlamaio.bootcampProject.business.requests.bootcamps.UpdateBootcampRequest;
@@ -29,8 +30,8 @@ import lombok.AllArgsConstructor;
 @Service
 public class BootcampManager implements BootcampService {
 
-	
 	private BootcampRepository bootcampRepository;
+	private InstructorService instructorService;
 	private ModelMapperService modelMapperService;
 
 	@Override
@@ -39,20 +40,24 @@ public class BootcampManager implements BootcampService {
 		List<GetAllBootcampResponse> bootcampResponse = bootcamps.stream()
 				.map(bootcamp -> this.modelMapperService.forResponse().map(bootcamp, GetAllBootcampResponse.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<GetAllBootcampResponse>>(bootcampResponse);
+		return new SuccessDataResult<List<GetAllBootcampResponse>>(bootcampResponse, Messages.Bootcamp.ListAll);
 	}
 
 	@Override
 	public DataResult<CreateBootcampResponse> add(CreateBootcampRequest createBootcampRequest) {
 		checkIfBootcampExistsByName(createBootcampRequest.getName());
+		instructorService.checkIfInstructorExistById(createBootcampRequest.getInstructorId());
+		checkIfStartDateBiggerThanEndDate(createBootcampRequest.getStartDate(), createBootcampRequest.getEndDate());
 		Bootcamp bootcamp = this.modelMapperService.forRequest().map(createBootcampRequest, Bootcamp.class);
-		bootcamp.setId(0);
+		bootcamp.setId(0); // postreSql id de yazılan identity i görmediği için bootcampId yi Instructor
+							// idsi ile eşliyor bunun önüne geçmek için bootcampIdyi burada set etmek
+							// gerekiyor.
 		this.bootcampRepository.save(bootcamp);
 
 		CreateBootcampResponse bootcampResponse = this.modelMapperService.forResponse().map(bootcamp,
 				CreateBootcampResponse.class);
 
-		return new SuccessDataResult<CreateBootcampResponse>(bootcampResponse, Messages.BootcampCreated);
+		return new SuccessDataResult<CreateBootcampResponse>(bootcampResponse, Messages.Bootcamp.Created);
 	}
 
 	@Override
@@ -62,7 +67,7 @@ public class BootcampManager implements BootcampService {
 		GetBootcampResponse bootcampResponse = this.modelMapperService.forResponse().map(bootcamp,
 				GetBootcampResponse.class);
 
-		return new SuccessDataResult<GetBootcampResponse>(bootcampResponse);
+		return new SuccessDataResult<GetBootcampResponse>(bootcampResponse, Messages.Bootcamp.ListByName);
 	}
 
 	@Override
@@ -72,14 +77,14 @@ public class BootcampManager implements BootcampService {
 		GetBootcampResponse bootcampResponse = this.modelMapperService.forResponse().map(bootcamp,
 				GetBootcampResponse.class);
 
-		return new SuccessDataResult<GetBootcampResponse>(bootcampResponse);
+		return new SuccessDataResult<GetBootcampResponse>(bootcampResponse, Messages.Bootcamp.ListById);
 	}
 
 	@Override
 	public Result deleteById(int id) {
 		checkIfBootcampNotExistsById(id);
 		this.bootcampRepository.deleteById(id);
-		return new SuccessResult(Messages.BootcampDeleted);
+		return new SuccessResult(Messages.Bootcamp.Deleted);
 	}
 
 	@Override
@@ -89,7 +94,7 @@ public class BootcampManager implements BootcampService {
 				.map(bootcamp -> this.modelMapperService.forResponse().map(bootcamp, GetAllBootcampResponse.class))
 				.collect(Collectors.toList());
 		this.bootcampRepository.deleteAll();
-		return new SuccessDataResult<List<GetAllBootcampResponse>>(bootcampResponse, Messages.AllBootcampDeleted);
+		return new SuccessDataResult<List<GetAllBootcampResponse>>(bootcampResponse, Messages.Bootcamp.AllDeleted);
 	}
 
 	@Override
@@ -101,37 +106,52 @@ public class BootcampManager implements BootcampService {
 		UpdateBootcampResponse bootcampResponse = this.modelMapperService.forResponse().map(bootcamp,
 				UpdateBootcampResponse.class);
 
-		return new SuccessDataResult<UpdateBootcampResponse>(bootcampResponse, Messages.BootcampUpdated);
+		return new SuccessDataResult<UpdateBootcampResponse>(bootcampResponse, Messages.Bootcamp.Updated);
+	}
+
+	@Override
+	public void checkIfBootcampIsActive(int id) {
+		checkIfBootcampNotExistsById(id);
+		Bootcamp bootcamp = bootcampRepository.findById(id);
+		if (bootcamp.getState() == 2) {
+			throw new BusinessException(Messages.Bootcamp.IsNotActive);
+		}
+
+	}
+
+	@Override
+	public void checkIfBootcampExistById(int id) {
+		if (!bootcampRepository.existsById(id)) {
+			throw new BusinessException(Messages.Bootcamp.NotExists);
+		}
+
 	}
 
 	public void checkIfBootcampExistsByName(String name) {
 		Bootcamp bootcamp = this.bootcampRepository.findByName(name);
 		if (bootcamp != null) {
-			throw new BusinessException(Messages.NameExists);
+			throw new BusinessException(Messages.Bootcamp.NameExists);
 		}
 	}
 
 	public void checkIfBootcampNotExistsById(int id) {
 		Bootcamp bootcamp = this.bootcampRepository.findById(id);
 		if (bootcamp == null) {
-			throw new BusinessException(Messages.IdNotExists);
+			throw new BusinessException(Messages.Bootcamp.NotExists);
 		}
 	}
 
 	public void checkIfBootcampNotExistsByName(String name) {
 		Bootcamp bootcamp = this.bootcampRepository.findByName(name);
 		if (bootcamp == null) {
-			throw new BusinessException(Messages.NameNotExists);
+			throw new BusinessException(Messages.Bootcamp.NameNotExists);
 		}
 	}
 
-	@Override
-	public void checkIfBootcampIsActive(int id) {
-		 Bootcamp bootcamp = bootcampRepository.findById(id);
-	        if(bootcamp.getState() == 2){
-	            throw new BusinessException(Messages.BootcampIsNotActive);
-	        }
-		
+	private void checkIfStartDateBiggerThanEndDate(LocalDate startDate, LocalDate endDate) {
+		if (startDate.isAfter(endDate) || startDate.isEqual(endDate)) {
+			throw new BusinessException(Messages.Bootcamp.StartDateBigThanEndDate);
+		}
 	}
 
 }

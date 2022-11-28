@@ -23,4 +23,6 @@ public interface ApplicationService {
 	DataResult<List<GetAllApplicationResponse>> deleteAll();
 
 	DataResult<UpdateApplicationResponse> update(UpdateApplicationRequest updateApplicationRequest);
+	
+	Result findApplicationAndDeleteFromApplication(int applicantId);
 }

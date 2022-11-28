@@ -2,6 +2,8 @@ package com.kodlamaio.bootcampProject.api.users;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -28,39 +30,41 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/api/instructors")
 public class InstructorsController {
 	private InstructorService instructorService;
-	
+
 	@GetMapping("/getall")
-    public DataResult<List<GetAllInstructorResponse>> getAll() {
-        return this.instructorService.getAll();
-    }
+	public DataResult<List<GetAllInstructorResponse>> getAll() {
+		return this.instructorService.getAll();
+	}
 
-    @PostMapping("/add")
-    public DataResult<CreateInstructorResponse> add(@RequestBody CreateInstructorRequest createInstructorRequest) {
-        return this.instructorService.add(createInstructorRequest);
-    }
+	@PostMapping("/add")
+	public DataResult<CreateInstructorResponse> add(
+			@Valid @RequestBody CreateInstructorRequest createInstructorRequest) {
+		return this.instructorService.add(createInstructorRequest);
+	}
 
-    @GetMapping("/getByName/{name}")
-    public DataResult<GetInstructorResponse> getByName(@PathVariable String name) {
-        return instructorService.getByName(name);
-    }
+	@GetMapping("/getByName/{name}")
+	public DataResult<List<GetAllInstructorResponse>> getByName(@PathVariable String name) {
+		return instructorService.getByName(name);
+	}
 
-    @GetMapping("/getById/{id}")
-    public DataResult<GetInstructorResponse> getById(@PathVariable int id) {
-        return this.instructorService.getById(id);
-    }
+	@GetMapping("/getById/{id}")
+	public DataResult<GetInstructorResponse> getById(@PathVariable int id) {
+		return this.instructorService.getById(id);
+	}
 
-    @DeleteMapping("/deleteById/{id}")
-    public Result deleteById(@PathVariable int id) {
-        return instructorService.deleteById(id);
-    }
+	@DeleteMapping("/deleteById/{id}")
+	public Result deleteById(@PathVariable int id) {
+		return instructorService.deleteById(id);
+	}
 
-    @DeleteMapping("/deleteAll")
-    public DataResult<List<GetAllInstructorResponse>> deleteAll() {
-       return instructorService.deleteAll();
-    }
+	@DeleteMapping("/deleteAll")
+	public DataResult<List<GetAllInstructorResponse>> deleteAll() {
+		return instructorService.deleteAll();
+	}
 
-    @PutMapping("/update")
-    public DataResult<UpdateInstructorResponse> update(@RequestBody UpdateInstructorRequest updateInstructorRequest) {
-        return this.instructorService.update(updateInstructorRequest);
-    }
+	@PutMapping("/update")
+	public DataResult<UpdateInstructorResponse> update(
+			@Valid @RequestBody UpdateInstructorRequest updateInstructorRequest) {
+		return this.instructorService.update(updateInstructorRequest);
+	}
 }

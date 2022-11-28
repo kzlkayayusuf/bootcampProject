@@ -1,4 +1,4 @@
-package com.kodlamaio.bootcampProject.entities.blacklist;
+package com.kodlamaio.bootcampProject.entities.blacklists;
 
 import java.time.LocalDate;
 
@@ -22,20 +22,20 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class BlackList {
+public class Blacklist {
 
 	// id,applicantId,date,reason
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
-	@Column(name="date")
+	@Column(name = "date")
 	private LocalDate date;
-	@Column(name="reason")
+	@Column(name = "reason")
 	private String reason;
-	
+
 	@ManyToOne
-	@JoinColumn(name="applicantId")
+	@JoinColumn(name = "applicantId")
 	private Applicant applicant;
-	
+
 }

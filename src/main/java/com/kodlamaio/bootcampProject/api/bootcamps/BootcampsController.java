@@ -2,6 +2,8 @@ package com.kodlamaio.bootcampProject.api.bootcamps;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -35,7 +37,7 @@ public class BootcampsController {
 	}
 
 	@PostMapping("/add")
-	public DataResult<CreateBootcampResponse> add(@RequestBody CreateBootcampRequest createBootcampRequest) {
+	public DataResult<CreateBootcampResponse> add(@Valid @RequestBody CreateBootcampRequest createBootcampRequest) {
 		return this.bootcampService.add(createBootcampRequest);
 	}
 
@@ -60,7 +62,7 @@ public class BootcampsController {
 	}
 
 	@PutMapping("/update")
-	public DataResult<UpdateBootcampResponse> update(@RequestBody UpdateBootcampRequest updateBootcampRequest) {
+	public DataResult<UpdateBootcampResponse> update(@Valid @RequestBody UpdateBootcampRequest updateBootcampRequest) {
 		return this.bootcampService.update(updateBootcampRequest);
 	}
 }

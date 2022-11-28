@@ -10,12 +10,14 @@ import javax.persistence.Table;
 import com.kodlamaio.bootcampProject.entities.bootcamps.Bootcamp;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "instructors")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Instructor extends User {
@@ -24,7 +26,7 @@ public class Instructor extends User {
 	private String companyName;
 
 	@OneToMany(mappedBy = "instructor")
-	private	List<Bootcamp> bootcamps;
+	private List<Bootcamp> bootcamps;
 
 //	@OneToOne
 //	@MapsId

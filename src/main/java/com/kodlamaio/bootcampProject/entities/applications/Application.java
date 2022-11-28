@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.kodlamaio.bootcampProject.entities.bootcamps.Bootcamp;
-import com.kodlamaio.bootcampProject.entities.users.User;
+import com.kodlamaio.bootcampProject.entities.users.Applicant;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -32,8 +32,8 @@ public class Application {
 	private int state;
 
 	@ManyToOne
-	@JoinColumn(name = "userId")
-	private User user;
+	@JoinColumn(name = "applicantId")
+	private Applicant applicant;
 
 	@ManyToOne
 	@JoinColumn(name = "bootcampId")

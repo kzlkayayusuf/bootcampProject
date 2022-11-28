@@ -33,7 +33,7 @@ public class BootcampProjectApplication {
 	
 	@ExceptionHandler
 	@ResponseStatus(code= HttpStatus.BAD_REQUEST)
-	public ErrorDataResult<Object> handleValidationException(MethodArgumentNotValidException methodArgumentNotValidException){
+	public ErrorDataResult<Object> handleValidationsException(MethodArgumentNotValidException methodArgumentNotValidException){
 		Map<String,String> validationErrors= new HashMap<String,String>();
 		for(FieldError fieldError: methodArgumentNotValidException.getBindingResult().getFieldErrors()) {
 			validationErrors.put(fieldError.getField(), fieldError.getDefaultMessage());

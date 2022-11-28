@@ -17,7 +17,7 @@ public interface EmployeeService {
 
 	DataResult<CreateEmployeeResponse> add(CreateEmployeeRequest createEmployeeRequest);
 
-	DataResult<GetEmployeeResponse> getByName(String name);
+	DataResult<List<GetAllEmployeeResponse>> getByName(String name);
 
 	DataResult<GetEmployeeResponse> getById(int id);
 
@@ -26,5 +26,7 @@ public interface EmployeeService {
 	DataResult<List<GetAllEmployeeResponse>> deleteAll();
 
 	DataResult<UpdateEmployeeResponse> update(UpdateEmployeeRequest updateEmployeeRequest);
+	
+	void checkIfUserIsEmployee(int id);
 
 }

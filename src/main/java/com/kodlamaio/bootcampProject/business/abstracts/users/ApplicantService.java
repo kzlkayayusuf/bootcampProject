@@ -17,7 +17,7 @@ public interface ApplicantService {
 
 	DataResult<CreateApplicantResponse> add(CreateApplicantRequest createApplicantRequest);
 
-	DataResult<GetApplicantResponse> getByName(String name);
+	DataResult<List<GetAllApplicantResponse>> getByName(String name);
 
 	DataResult<GetApplicantResponse> getById(int id);
 
@@ -27,4 +27,9 @@ public interface ApplicantService {
 
 	DataResult<UpdateApplicantResponse> update(UpdateApplicantRequest updateApplicantRequest);
 
+	DataResult<GetApplicantResponse> beAnApplicant(String about, int id);
+
+	Result removeAnApplicant(int id);
+	
+	void checkIfApplicantExistsById(int id);
 }

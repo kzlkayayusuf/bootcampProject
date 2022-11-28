@@ -37,7 +37,7 @@ public class EmployeeManager implements EmployeeService {
 		List<GetAllEmployeeResponse> employeesResponse = employees.stream()
 				.map(employee -> this.modelMapperService.forResponse().map(employee, GetAllEmployeeResponse.class))
 				.collect(Collectors.toList());
-		return new SuccessDataResult<List<GetAllEmployeeResponse>>(employeesResponse);
+		return new SuccessDataResult<List<GetAllEmployeeResponse>>(employeesResponse,Messages.Employee.ListAll);
 	}
 
 	@Override
@@ -48,17 +48,18 @@ public class EmployeeManager implements EmployeeService {
 
 		CreateEmployeeResponse employeeResponse = this.modelMapperService.forResponse().map(employee,
 				CreateEmployeeResponse.class);
-		return new SuccessDataResult<CreateEmployeeResponse>(employeeResponse, Messages.EmployeeCreated);
+		return new SuccessDataResult<CreateEmployeeResponse>(employeeResponse, Messages.Employee.Created);
 	}
 
 	@Override
-	public DataResult<GetEmployeeResponse> getByName(String name) {
+	public DataResult<List<GetAllEmployeeResponse>> getByName(String name) {
 		checkIfEmployeeNotExistsByFirstName(name);
-		Employee employee = this.employeeRepository.findByFirstName(name);
-		GetEmployeeResponse employeeResponse = this.modelMapperService.forResponse().map(employee,
-				GetEmployeeResponse.class);
+		List<Employee> employees = this.employeeRepository.findByFirstName(name);
+		List<GetAllEmployeeResponse> employeeResponse = employees.stream()
+				.map(employee->this.modelMapperService.forResponse().map(employee, GetAllEmployeeResponse.class))
+				.collect(Collectors.toList());
 
-		return new SuccessDataResult<GetEmployeeResponse>(employeeResponse);
+		return new SuccessDataResult<List<GetAllEmployeeResponse>>(employeeResponse,Messages.Employee.ListByName);
 	}
 
 	@Override
@@ -68,14 +69,14 @@ public class EmployeeManager implements EmployeeService {
 		GetEmployeeResponse employeeResponse = this.modelMapperService.forResponse().map(employee,
 				GetEmployeeResponse.class);
 
-		return new SuccessDataResult<GetEmployeeResponse>(employeeResponse);
+		return new SuccessDataResult<GetEmployeeResponse>(employeeResponse,Messages.Employee.ListById);
 	}
 
 	@Override
 	public Result deleteById(int id) {
 		checkIfEmployeeNotExistsById(id);
 		this.employeeRepository.deleteById(id);
-		return new SuccessResult(Messages.EmployeeDeleted);
+		return new SuccessResult(Messages.Employee.Deleted);
 	}
 
 	@Override
@@ -85,39 +86,56 @@ public class EmployeeManager implements EmployeeService {
 				.map(employee -> this.modelMapperService.forResponse().map(employee, GetAllEmployeeResponse.class))
 				.collect(Collectors.toList());
 		this.employeeRepository.deleteAll();
-		return new SuccessDataResult<List<GetAllEmployeeResponse>>(employeesResponse, Messages.AllEmployeeDeleted);
+		return new SuccessDataResult<List<GetAllEmployeeResponse>>(employeesResponse, Messages.Employee.AllDeleted);
 	}
 
 	@Override
 	public DataResult<UpdateEmployeeResponse> update(UpdateEmployeeRequest updateEmployeeRequest) {
 		checkIfEmployeeNotExistsById(updateEmployeeRequest.getId());
+		checkIfEmployeeNotExistsByNationalityIdentity(updateEmployeeRequest.getNationalityIdentity());
 		Employee employee = this.modelMapperService.forRequest().map(updateEmployeeRequest, Employee.class);
 		this.employeeRepository.save(employee);
 		UpdateEmployeeResponse employeeResponse = this.modelMapperService.forResponse().map(employee,
 				UpdateEmployeeResponse.class);
 
-		return new SuccessDataResult<UpdateEmployeeResponse>(employeeResponse, Messages.EmployeeUpdated);
+		return new SuccessDataResult<UpdateEmployeeResponse>(employeeResponse, Messages.Employee.Updated);
 	}
+	
+	@Override
+    public void checkIfUserIsEmployee(int id) {
+        if (!this.employeeRepository.existsById(id)) {
+            throw new BusinessException(Messages.Employee.NotAnEmployee);
+        }
+    }
 
 	public void checkIfEmployeeExistsByNationalityIdentity(String nationalityIdentity) {
 		Employee employee = this.employeeRepository.findByNationalityIdentity(nationalityIdentity);
 		if (employee != null) {
-			throw new BusinessException(Messages.IdentityExists);
+			throw new BusinessException(Messages.Employee.Exists);
+		}
+	}
+	
+	public void checkIfEmployeeNotExistsByNationalityIdentity(String nationalityIdentity) {
+		Employee employee = this.employeeRepository.findByNationalityIdentity(nationalityIdentity);
+		if (employee == null) {
+			throw new BusinessException(Messages.Employee.NotExists);
 		}
 	}
 
 	public void checkIfEmployeeNotExistsById(int id) {
 		Employee employee = this.employeeRepository.findById(id);
 		if (employee == null) {
-			throw new BusinessException(Messages.IdNotExists);
+			throw new BusinessException(Messages.Employee.NotExists);
 		}
 	}
 
 	public void checkIfEmployeeNotExistsByFirstName(String firstName) {
-		Employee employee = this.employeeRepository.findByFirstName(firstName);
-		if (employee == null) {
-			throw new BusinessException(Messages.NameNotExists);
+		List<Employee> employees = this.employeeRepository.findByFirstName(firstName);
+		if (employees.isEmpty()) {
+			throw new BusinessException(Messages.Employee.NameNotExists);
 		}
 	}
+
+
 
 }

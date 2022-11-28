@@ -6,4 +6,5 @@ import com.kodlamaio.bootcampProject.entities.applications.Application;
 
 public interface ApplicationRepository extends JpaRepository<Application, Integer>{
 	Application findById(int id);
+	Application findApplicationByApplicantId(int userId);
 }

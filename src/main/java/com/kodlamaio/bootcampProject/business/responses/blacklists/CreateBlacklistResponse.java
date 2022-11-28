@@ -1,4 +1,4 @@
-package com.kodlamaio.bootcampProject.business.requests.blacklist;
+package com.kodlamaio.bootcampProject.business.responses.blacklists;
 
 import java.time.LocalDate;
 
@@ -11,8 +11,9 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateBlackListRequest {
+public class CreateBlacklistResponse {
 
+	private int id;
 	@JsonFormat(pattern = "dd/MM/yyyy")
 	private LocalDate date;
 	private String reason;

@@ -17,7 +17,7 @@ public interface InstructorService {
 
 	DataResult<CreateInstructorResponse> add(CreateInstructorRequest createInstructorRequest);
 
-	DataResult<GetInstructorResponse> getByName(String name);
+	DataResult<List<GetAllInstructorResponse>> getByName(String name);
 
 	DataResult<GetInstructorResponse> getById(int id);
 
@@ -26,4 +26,6 @@ public interface InstructorService {
 	DataResult<List<GetAllInstructorResponse>> deleteAll();
 
 	DataResult<UpdateInstructorResponse> update(UpdateInstructorRequest updateInstructorRequest);
+
+	void checkIfInstructorExistById(int id);
 }

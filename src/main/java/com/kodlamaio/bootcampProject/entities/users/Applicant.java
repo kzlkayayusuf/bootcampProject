@@ -7,15 +7,18 @@ import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.kodlamaio.bootcampProject.entities.blacklist.BlackList;
+import com.kodlamaio.bootcampProject.entities.applications.Application;
+import com.kodlamaio.bootcampProject.entities.blacklists.Blacklist;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "applicants")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class Applicant extends User {
@@ -24,7 +27,10 @@ public class Applicant extends User {
 	private String about;
 
 	@OneToMany(mappedBy = "applicant")
-	private List<BlackList> blackList;
+	private List<Application> applications;
+
+	@OneToMany(mappedBy = "applicant")
+	private List<Blacklist> blacklists;
 
 //	@OneToOne
 //	@MapsId
